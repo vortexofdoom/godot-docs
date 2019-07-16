@@ -72,6 +72,9 @@ Render modes
 +---------------------------------+-----------------------------------------------------------------------+
 | **ambient_light_disabled**      | Disable contribution from ambient light and radiance map.             |
 +---------------------------------+-----------------------------------------------------------------------+
+| **shadow_to_opacity**           | Allows for overlaying shadows onto a camera feed. (for AR use)        |
++---------------------------------+-----------------------------------------------------------------------+
+
 
 Vertex built-ins
 ^^^^^^^^^^^^^^^^
@@ -101,7 +104,7 @@ it manually with the following code:
         // same as above for binormal and tangent, if normal mapping is used
     }
 
-Other built-ins, such as UV, UV2 and COLOR, are also passed through to the fragment function if not modified.
+Other built-ins, such as UV, UV2 and COLOR, are also passed through to the fragment and light functions if not modified.
 
 Users can override the modelview and projection transforms using the ``POSITION`` built-in. When ``POSITION`` is used,
 the value from ``VERTEX`` is ignored and projection does not happen. However, the value passed to the fragment shader 
@@ -309,6 +312,10 @@ If you want the lights to add together, add the light contribution to ``DIFFUSE_
 +-----------------------------------+---------------------------------------------+
 | in vec3 **NORMAL**                | Normal vector, in view space.               |
 +-----------------------------------+---------------------------------------------+
+| in vec2 **UV**                    | UV that comes from vertex function.         |
++-----------------------------------+---------------------------------------------+
+| in vec2 **UV2**                   | UV2 that comes from vertex function.        |
++-----------------------------------+---------------------------------------------+
 | in vec3 **VIEW**                  | View vector, in view space.                 |
 +-----------------------------------+---------------------------------------------+
 | in vec3 **LIGHT**                 | Light Vector, in view space.                |
@@ -329,4 +336,6 @@ If you want the lights to add together, add the light contribution to ``DIFFUSE_
 +-----------------------------------+---------------------------------------------+
 | in bool **OUTPUT_IS_SRGB**        | True when calculations happen in sRGB       |
 |                                   | color space (true in GLES2, false in GLES3).|
++-----------------------------------+---------------------------------------------+
+| out float **ALPHA**               | Pixel alpha for the shadow_to_opacity mode. |
 +-----------------------------------+---------------------------------------------+
